@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// Copyright (C) 2026 whekkees (Daniil)
+
 use super::io::inb::inb;
 use super::io::outb::outb;
 use super::pit;
