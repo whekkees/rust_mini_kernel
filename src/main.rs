@@ -1,45 +1,72 @@
-// SPDX-License-Identifier: GPL-3.0-only
-// Copyright (C) 2026 whekkees (Daniil)
-
 #![no_std]
 #![no_main]
 
-use core::arch::global_asm;
-
-use crate::drivers::speaker::play_sound;
-
-mod panic;
 mod drivers;
+mod panic;
 
-global_asm!(include_str!("boot.asm"));
-
-static HELLO: &[u8] = b"Hello World213213";
+const MULTIBOOT_BOOTLOADER_MAGIC: u32 = 0x2BADB002;
 
 #[unsafe(no_mangle)]
-pub extern "C" fn kmain(magic: u32, _multiboot_info_ptr: u32) -> ! {
-    
-    if magic == 0x2BADB002 {
+pub extern "C" fn kmain(magic: u32, multiboot_info_ptr: u32) -> ! {
+    if magic != MULTIBOOT_BOOTLOADER_MAGIC {
+        halt();
     }
 
+    let _ = multiboot_info_ptr;
+
     unsafe {
-    play_sound(1000);
+        drivers::vga::vga::clear();
+
+        drivers::vga::vga::put_char(b'A');
+        drivers::vga::vga::put_char(b'v');
+        drivers::vga::vga::put_char(b'e');
+        drivers::vga::vga::put_char(b'r');
+        drivers::vga::vga::put_char(b'i');
+        drivers::vga::vga::put_char(b'o');
+        drivers::vga::vga::put_char(b'n');
+        drivers::vga::vga::put_char(b'>');
+        drivers::vga::vga::put_char(b' ');
     }
 
-    let vga_buffer = 0xb8000 as *mut u8;
+    loop {
+        let event = unsafe {
+            drivers::pc2_keyboard::keyboard::read_event()
+        };
 
-    unsafe {
-        for i in 0..2000 {
-            *vga_buffer.add(i * 2) = b' ';
-            *vga_buffer.add(i * 2 + 1) = 0x07;
+        if !event.pressed {
+            continue;
+        }
+
+        match event.key {
+            drivers::pc2_keyboard::scancode::Key::Backspace => {
+                unsafe {
+                    drivers::vga::vga::put_char(b'\x08');
+                }
+            }
+
+            _ => {
+                let shift = unsafe {
+                    drivers::pc2_keyboard::keyboard::shift()
+                };
+
+                let caps_lock = unsafe {
+                    drivers::pc2_keyboard::keyboard::caps_lock()
+                };
+
+                if let Some(character) = event.key.ascii(shift, caps_lock) {
+                    unsafe {
+                        drivers::vga::vga::put_char(character);
+                    }
+                }
+            }
         }
     }
+}
 
-    for (i, &byte) in HELLO.iter().enumerate() {
+fn halt() -> ! {
+    loop {
         unsafe {
-            *vga_buffer.add(i * 2) = byte;
-            *vga_buffer.add(i * 2 + 1) = 0x0b;
+            core::arch::asm!("cli", "hlt");
         }
     }
-
-    loop {}
 }

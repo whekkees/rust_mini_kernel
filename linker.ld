@@ -1,14 +1,43 @@
 ENTRY(start)
 
-SECTIONS {
-    . = 1M; /* Загружаем ядро по адресу 1 Мегабайт */
+SECTIONS
+{
+    . = 1M;
 
-    .text : {
-        KEEP(*(.multiboot)) /* Фиксируем Multiboot-заголовок в самом начале */
-        *(.text .text.*)
+    .multiboot ALIGN(4) :
+    {
+        KEEP(*(.multiboot))
     }
 
-    .rodata : { *(.rodata .rodata.*) }
-    .data   : { *(.data .data.*) }
-    .bss    : { *(.bss .bss.*) }
+    .text ALIGN(4K) :
+    {
+        *(.text)
+        *(.text.*)
+    }
+
+    .rodata ALIGN(4K) :
+    {
+        *(.rodata)
+        *(.rodata.*)
+    }
+
+    .data ALIGN(4K) :
+    {
+        *(.data)
+        *(.data.*)
+    }
+
+    .bss ALIGN(4K) :
+    {
+        *(COMMON)
+        *(.bss)
+        *(.bss.*)
+    }
+
+    /DISCARD/ :
+    {
+        *(.eh_frame)
+        *(.comment)
+        *(.note*)
+    }
 }

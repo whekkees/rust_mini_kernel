@@ -1,31 +1,34 @@
-.code32
+BITS 32
 
-.global start
-.extern kmain
-
-.section .multiboot
-.align 4
-
-.set MULTIBOOT_MAGIC,    0x1BADB002
-.set MULTIBOOT_FLAGS,    0x00000003
-.set MULTIBOOT_CHECKSUM, -(MULTIBOOT_MAGIC + MULTIBOOT_FLAGS)
-
-.long MULTIBOOT_MAGIC
-.long MULTIBOOT_FLAGS
-.long MULTIBOOT_CHECKSUM
+global start
+extern kmain
 
 
-.section .text
+MULTIBOOT_MAGIC    equ 0x1BADB002
+MULTIBOOT_FLAGS    equ 0x00000003
+MULTIBOOT_CHECKSUM equ -(MULTIBOOT_MAGIC + MULTIBOOT_FLAGS)
+
+section .multiboot
+align 4
+
+    dd MULTIBOOT_MAGIC
+    dd MULTIBOOT_FLAGS
+    dd MULTIBOOT_CHECKSUM
+
+
+section .text
+align 16
 
 start:
     cli
 
-    mov esp, offset stack_top
+    mov esp, stack_top
 
     push ebx
     push eax
 
     call kmain
+
 
 .hang:
     cli
@@ -33,13 +36,13 @@ start:
     jmp .hang
 
 
-.section .bss
-.align 16
+section .bss
+align 16
 
 stack_bottom:
-    .skip 65536
+    resb 65536
 
 stack_top:
 
 
-.section .note.GNU-stack
+section .note.GNU-stack

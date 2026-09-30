@@ -10,3 +10,10 @@ pub fn panic(__panic_information : &PanicInfo) -> ! {
 
     }
 }
+
+
+/*
+New-Item -ItemType Directory -Force target
+nasm -f elf32 src\boot.asm -o target\boot.o
+cargo run
+ */

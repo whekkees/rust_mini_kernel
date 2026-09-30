@@ -15,7 +15,7 @@ pub unsafe fn inb(port: u16) -> u8 {
         options(nostack, preserves_flags),
     );
 
-    value;
+    value
 }
 
 /*
