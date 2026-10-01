@@ -1,0 +1,8 @@
+use crate::arch::io::inb;
+use crate::arch::io::outb;
+
+pub unsafe fn nmi_disable() { 
+    outb(0x70, inb(0x70) | 0x80);
+    inb(0x71);
+}
+

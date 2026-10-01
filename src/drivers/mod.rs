@@ -1,19 +1,2 @@
-// SPDX-License-Identifier: GPL-3.0-only
-// Copyright (C) 2026 whekkees (Daniil)
-
-pub mod vga;
-pub mod io;
-pub mod pc_speaker;
-pub mod pc2_keyboard;
-
-
-/* 
-0х60 это порт через который идут все данные их можно читать и выполнять и так же  писать данные устройству
-
-0x42 — это 8-битный I/O-порт, через который мы взаимодействуем с Channel 2.
-0x43 - это 8 битный i o порт с помощью которого мы выбираем сектор режим доступ
-
-0x64  этот порт имеет 2 типа первый тип status register он получает состояние контроллера
-
-второй тип это commnd register он отправляем команду ps 2 контролеру
-*/
+pub mod hardware;
+pub mod internal;
