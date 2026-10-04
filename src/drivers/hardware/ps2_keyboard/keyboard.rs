@@ -10,7 +10,7 @@ use crate::drivers::hardware::ps2_keyboard::scancode::decode;
 static mut SHIFT: bool = false;
 static mut CAPS_LOCK: bool = false;
 
-pub unsafe fn read_event() -> KeyEvent {
+pub unsafe fn read_event() -> KeyEvent { // ждет данные от ps 2 и потом декодирует в key event 
     loop {
         wait_output_full();
 
@@ -23,7 +23,7 @@ pub unsafe fn read_event() -> KeyEvent {
     }
 }
 
-unsafe fn update_state(event: KeyEvent) {
+unsafe fn update_state(event: KeyEvent) { // состояние клавиш при нажатии на шифт или капслок 
     match event.key {
         Key::LeftShift | Key::RightShift => {
             SHIFT = event.pressed;
@@ -39,14 +39,14 @@ unsafe fn update_state(event: KeyEvent) {
     }
 }
 
-pub unsafe fn shift() -> bool {
+pub unsafe fn shift() -> bool { // проверяет ли нажат шифт 
     SHIFT
 }
 
-pub unsafe fn caps_lock() -> bool {
+pub unsafe fn caps_lock() -> bool { // проверяет ли нажат капс лок 
     CAPS_LOCK
 }
 
-pub unsafe fn to_ascii(key: Key) -> Option<u8> {
+pub unsafe fn to_ascii(key: Key) -> Option<u8> { // передает клавишу в to_ascii из ascii.rs
     ascii::to_ascii(key,SHIFT,CAPS_LOCK,)
 }

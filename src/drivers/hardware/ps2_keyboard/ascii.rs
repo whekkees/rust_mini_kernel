@@ -1,6 +1,6 @@
 use super::key::Key;
 
-pub fn to_ascii(key: Key, shift: bool, caps_lock: bool) -> Option<u8> {
+pub fn to_ascii(key: Key, shift: bool, caps_lock: bool) -> Option<u8> { // переводим нажатые кнопки в ascii символы 
     match key {
         Key::A => Some(letter(b'a', shift, caps_lock)),
         Key::B => Some(letter(b'b', shift, caps_lock)),
@@ -53,7 +53,7 @@ pub fn to_ascii(key: Key, shift: bool, caps_lock: bool) -> Option<u8> {
 }
 
 
-fn letter(lw: u8,  shift: bool, caps_lock: bool) -> u8 {
+fn letter(lw: u8,  shift: bool, caps_lock: bool) -> u8 { // определяем ли функция должна быть заглавной или нет
     let up = shift ^ caps_lock;
 
     if up {

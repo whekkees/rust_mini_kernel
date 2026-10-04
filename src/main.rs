@@ -7,6 +7,8 @@ pub mod arch;
 pub mod drivers;
 pub mod kernel;
 pub mod panic;
+pub mod lib;
+
 
 // логика запуска ядра 
 

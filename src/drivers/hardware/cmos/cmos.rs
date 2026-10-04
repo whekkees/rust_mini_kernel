@@ -19,3 +19,8 @@ pub unsafe fn read_register(register: u8) -> u8 {
     outb(CMOS_REGISTER_CHOOSE, register);
     outb(CMOS_REGISTER_DATA, val);
  }
+
+ /*
+ 0x70 - выбирает регистр 
+ 0x71 - записывает либо читает данные 
+  */

@@ -3,15 +3,17 @@
 
 
 use crate::drivers::hardware::ps2_keyboard::key::Key;
-#[derive(Debug, Clone, Copy)]
 
-pub struct KeyEvent {
+
+const RELEASED: u8 = 0x80;
+#[derive(Debug, Clone, Copy)]
+pub struct KeyEvent { // евент для указывания клавиши и проверки ли нажата кнопка
     pub key: Key,
     pub pressed: bool,
 }
 
-pub fn decode(scancode: u8) -> Option<KeyEvent> {
-    let pressed = scancode & 0x80 == 0;
+pub fn decode(scancode: u8) -> Option<KeyEvent> { // декодировка скан кодов 
+    let pressed = scancode & RELEASED == 0; // 0x80 означает что клавиша отпущена 
     let code = scancode & 0x7F;
 
     let key = match code {

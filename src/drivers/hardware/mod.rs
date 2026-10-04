@@ -5,4 +5,5 @@ pub mod cmos;
 pub mod ps2_keyboard;
 pub mod pc_speaker;
 pub mod vga;
+pub mod storage;
 pub mod ps2;

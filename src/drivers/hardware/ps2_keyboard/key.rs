@@ -2,7 +2,7 @@
 // Copyright (C) 2026 whekkees (Daniil)
 
 #[derive(Debug, Clone, Copy)]
-pub enum Key {
+pub enum Key { // клавиши
     A,
     B,
     C,
