@@ -8,7 +8,7 @@ json-target-spec = true
 
 [target.i686-averion]
 linker = "rust-lld"
-runner = "powershell -ExecutionPolicy Bypass -File run.ps1"
+
 
 rustflags = [
     "-Zunstable-options",
