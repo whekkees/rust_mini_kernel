@@ -1,6 +1,5 @@
 use crate::arch::io::{inl, outl};
 
-
 const CONFIG_ADRESS : u16 = 0xCF8;
 const CONFIG_DATA : u16 = 0xCFC;
 

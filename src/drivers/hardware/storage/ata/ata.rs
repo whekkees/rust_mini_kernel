@@ -72,6 +72,7 @@ pub unsafe fn wait_drq() -> Result<(), AtaError> {
     }
 }
 
+
 pub unsafe fn read_sector(sector: u32, buffer: &mut [u8; 512]) -> Result<(), AtaError> { 
     wait_empty()?; 
 

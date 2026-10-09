@@ -3,6 +3,7 @@
 
 use crate::kernel::kmain::start;
 
+pub mod cpp;
 pub mod arch;
 pub mod drivers;
 pub mod kernel;

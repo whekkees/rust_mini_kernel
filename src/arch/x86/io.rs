@@ -31,13 +31,13 @@ pub unsafe extern "C" fn outw(port: u16, val: u16) {
 #[no_mangle]
 pub unsafe extern "C" fn inl(port: u16) -> u32 {
     let val: u32;
-    asm!("in al, dx", in("dx") port, out("ax") val, options(nomem, nostack, preserves_flags));
+    asm!("in al, dx", in("dx") port, out("eax") val, options(nomem, nostack, preserves_flags));
     val
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn outl(port: u16, val: u32) {
-    asm!("out dx, al", in("dx") port, in("ax") val, options(nomem, nostack, preserves_flags));
+    asm!("out dx, al", in("dx") port, in("eax") val, options(nomem, nostack, preserves_flags));
 }
 
 

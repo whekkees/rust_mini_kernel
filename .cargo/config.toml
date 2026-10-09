@@ -9,9 +9,9 @@ json-target-spec = true
 [target.i686-averion]
 linker = "rust-lld"
 
-
 rustflags = [
     "-Zunstable-options",
     "-C", "link-arg=-Tlinker.ld",
     "-C", "link-arg=target/boot.o",
+    "-C", "link-arg=target/cpp_kernel.o",
 ]
